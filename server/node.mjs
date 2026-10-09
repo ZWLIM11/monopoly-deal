@@ -5,7 +5,7 @@ import {fileURLToPath} from 'node:url';
 import {createRoom,join,authenticate,snapshot,tick,command,makeCode} from './rooms.mjs';
 const root=fileURLToPath(new URL('../public/',import.meta.url));
 const rooms=new Map(),limits=new Map();
-const mime={'.html':'text/html; charset=utf-8','.css':'text/css','.mjs':'text/javascript','.js':'text/javascript','.svg':'image/svg+xml','.txt':'text/plain'};
+const mime={'.html':'text/html; charset=utf-8','.css':'text/css','.mjs':'text/javascript','.js':'text/javascript','.svg':'image/svg+xml','.txt':'text/plain','.webp':'image/webp'};
 function json(res,data,status=200){res.writeHead(status,{'Content-Type':'application/json','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'});res.end(JSON.stringify(data))}
 async function body(req){let text='';for await(const chunk of req){text+=chunk;if(text.length>8192)throw new Error('Request is too large')}return JSON.parse(text||'{}')}
 export const server=http.createServer(async(req,res)=>{

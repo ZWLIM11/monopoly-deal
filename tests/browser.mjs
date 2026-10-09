@@ -7,13 +7,15 @@ const dir=process.env.SCREENSHOT_DIR||'test-results';await mkdir(dir,{recursive:
 const browser=await chromium.launch({headless:true,...(process.env.BROWSER_CHANNEL?{channel:process.env.BROWSER_CHANNEL}:{}),args:['--use-angle=swiftshader','--enable-unsafe-swiftshader']});
 const errors=[];const page=await browser.newPage({viewport:{width:1440,height:1000}});page.on('pageerror',e=>errors.push(e.message));
 const url=process.env.TEST_URL||'http://localhost:8790';
-await page.goto(url);await page.waitForTimeout(1400);assert.equal(await page.locator('#fallback').isVisible(),false,'WebGL renderer is active');await page.screenshot({path:dir+'/deal-desktop.png',fullPage:true});
+await page.goto(url);await page.locator('#showcaseCards .card').first().waitFor();await page.waitForTimeout(1400);assert.equal(await page.locator('#fallback').isVisible(),false,'WebGL renderer is active');assert.equal(await page.locator('#showcaseCards .card').count(),6);await page.screenshot({path:dir+'/deal-desktop.png',fullPage:true});
 await page.locator('#playerName').fill('Ziwei');await page.locator('#practice').click();await page.locator('#playArea').waitFor({state:'visible'});await page.waitForTimeout(800);
 assert.equal(await page.locator('#seats .seat').count(),3);assert.equal(await page.locator('#hand .card').count(),7);
 await page.screenshot({path:dir+'/deal-game.png',fullPage:true});
 await page.locator('#hand .card').first().click();await page.locator('#modal').waitFor({state:'visible'});await page.screenshot({path:dir+'/deal-card.png',fullPage:true});
+await page.locator('.inspect>.card').click();assert.equal(await page.locator('.inspect>.card').getAttribute('aria-pressed'),'true');await page.locator('.inspect>.card').press('Enter');assert.equal(await page.locator('.inspect>.card').getAttribute('aria-pressed'),'false');
 const bank=page.locator('#bankCard');if(await bank.count())await bank.click();else await page.locator('#playCard').click();await page.waitForTimeout(300);assert.equal(await page.locator('#hand .card').count(),6);
 await page.reload();await page.locator('#hand .card').first().waitFor();assert.equal(await page.locator('#hand .card').count(),6);
+await page.locator('#viewButton').click();assert.equal(await page.locator('#viewButton').innerText(),'Angled view');await page.locator('#resetView').click();assert.equal(await page.locator('#viewButton').innerText(),'Top view');
 await page.locator('#rulesButton').click();await page.locator('.rules-grid').waitFor();await page.locator('.modal-close').click();
 await page.close();
 // Two isolated sessions: create, join, start, hidden hand, legal move and reconnect.

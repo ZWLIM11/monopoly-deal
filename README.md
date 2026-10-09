@@ -18,7 +18,8 @@ For two local players, use separate browser tabs. Sessions are stored per tab so
 
 ## Features
 
-- Locally bundled Three.js: physical card stacks, card faces, lighting, shadows, hover lift, orbit, zoom, top view, and property-movement animation.
+- Locally bundled Three.js: a walnut and leather table, gold trim, red game box, brass lamp, rounded layered card stacks, warm lighting, shadows, hover lift, smooth orbit/zoom, top view, and draw/property-movement animations.
+- Illustrated city and action cards, engraved money, rainbow wilds, and reversible red card backs. The same high-resolution card painter supplies the 3D scene, hand, and click-to-flip inspector.
 - Readable card inspection and keyboard-accessible buttons; mobile hand scrolling; a functional control interface even without WebGL.
 - Complete 106-card playable deck: 28 fixed properties, 11 wild properties, 20 money cards, 34 actions, and 13 rent cards.
 - Banking, property sets, wild rearrangement, rent combinations, houses/hotels, Sly Deal, Forced Deal, Deal Breaker, birthdays, debt collection, and Just Say No counter chains.
@@ -62,7 +63,10 @@ Sign in to your Cloudflare account first. This creates the `monopoly-deal-3d` Wo
 ## Structure
 
 - `public/cards.mjs`: shared deck definitions and display text.
-- `public/scene.mjs`: 3D rendering and camera controls.
+- `public/tabletop.mjs`: 3D environment, rendering, and camera controls.
+- `public/card-art.mjs`: shared illustrated card faces, rent tables, banknotes, and backs.
+- `public/assets/deal-illustrations.webp`: locally hosted generated illustration atlas; see [art direction and prompt](docs/art-direction.md).
+- `public/luxury.css`: the leather, walnut, brass, and ivory interface theme.
 - `public/app.mjs`: lobby, card controls, responses, and synchronization.
 - `server/engine.mjs`: rules, private views, and bot choices.
 - `server/rooms.mjs`: sessions, lobby, atomic commands, and bot pacing.
