@@ -1,0 +1,26 @@
+import {createRequire} from 'node:module';
+import {mkdir} from 'node:fs/promises';
+import assert from 'node:assert/strict';
+const require=createRequire(import.meta.url);
+const {chromium}=require(process.env.PLAYWRIGHT_PATH||'playwright');
+const dir=process.env.SCREENSHOT_DIR||'test-results';await mkdir(dir,{recursive:true});
+const browser=await chromium.launch({headless:true,...(process.env.BROWSER_CHANNEL?{channel:process.env.BROWSER_CHANNEL}:{}),args:['--use-angle=swiftshader','--enable-unsafe-swiftshader']});
+const errors=[];const page=await browser.newPage({viewport:{width:1440,height:1000}});page.on('pageerror',e=>errors.push(e.message));
+const url=process.env.TEST_URL||'http://localhost:8790';
+await page.goto(url);await page.waitForTimeout(1400);assert.equal(await page.locator('#fallback').isVisible(),false,'WebGL renderer is active');await page.screenshot({path:dir+'/deal-desktop.png',fullPage:true});
+await page.locator('#playerName').fill('Ziwei');await page.locator('#practice').click();await page.locator('#playArea').waitFor({state:'visible'});await page.waitForTimeout(800);
+assert.equal(await page.locator('#seats .seat').count(),3);assert.equal(await page.locator('#hand .card').count(),7);
+await page.screenshot({path:dir+'/deal-game.png',fullPage:true});
+await page.locator('#hand .card').first().click();await page.locator('#modal').waitFor({state:'visible'});await page.screenshot({path:dir+'/deal-card.png',fullPage:true});
+const bank=page.locator('#bankCard');if(await bank.count())await bank.click();else await page.locator('#playCard').click();await page.waitForTimeout(300);assert.equal(await page.locator('#hand .card').count(),6);
+await page.reload();await page.locator('#hand .card').first().waitFor();assert.equal(await page.locator('#hand .card').count(),6);
+await page.locator('#rulesButton').click();await page.locator('.rules-grid').waitFor();await page.locator('.modal-close').click();
+await page.close();
+// Two isolated sessions: create, join, start, hidden hand, legal move and reconnect.
+const host=await browser.newPage(),guest=await browser.newPage();for(const p of [host,guest])p.on('pageerror',e=>errors.push(e.message));
+await host.goto(url);await host.locator('#playerName').fill('Host');await host.locator('#host').click();await host.locator('#lobby .code-box strong').waitFor();const code=await host.locator('#lobby .code-box strong').innerText();
+await guest.goto(url+'/?room='+code);await guest.locator('#playerName').fill('Guest');await guest.locator('#join').click();await guest.locator('#lobby').waitFor({state:'visible'});await host.locator('#startGame').waitFor({state:'visible'});await host.waitForTimeout(1300);await host.locator('#startGame').click();await guest.locator('#hand .card').first().waitFor();assert.equal(await guest.locator('#hand .card').count(),5);
+const privateCheck=await guest.evaluate(async()=>{const s=JSON.parse(sessionStorage.getItem('deal-session'));return (await fetch('/api/rooms/'+s.code,{headers:{Authorization:'Bearer '+s.token}})).json()});assert.equal(privateCheck.game.players[0].hand,undefined);assert.equal(privateCheck.game.deck,undefined);assert.equal(privateCheck.players[0].secret,undefined);
+await host.locator('#endTurn').click();await guest.locator('#endTurn').waitFor({state:'visible'});assert.equal(await guest.locator('#hand .card').count(),7);await guest.reload();await guest.locator('#endTurn').waitFor({state:'visible'});await host.close();await guest.close();
+const mobile=await browser.newPage({viewport:{width:390,height:844},isMobile:true,deviceScaleFactor:1});mobile.on('pageerror',e=>errors.push(e.message));await mobile.goto(url);await mobile.waitForTimeout(600);await mobile.screenshot({path:dir+'/deal-mobile.png',fullPage:true});assert.ok(await mobile.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'No mobile page overflow');await mobile.locator('#practice').click();await mobile.locator('#hand .card').first().waitFor();await mobile.screenshot({path:dir+'/deal-mobile-game.png',fullPage:true});assert.ok(await mobile.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'No mobile game overflow');
+assert.deepEqual(errors,[]);console.log('Browser checks passed: desktop, mobile, card play, private rooms, turn sync, reconnect, hidden hands, no runtime errors.');await browser.close();

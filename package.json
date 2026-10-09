@@ -1,0 +1,12 @@
+{
+  "name": "monopoly-deal-3d",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server/node.mjs",
+    "dev": "node --watch server/node.mjs",
+    "test": "node --test tests/*.test.mjs"
+  },
+  "engines": { "node": ">=22" }
+}

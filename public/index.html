@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#142f2d"><title>Monopoly Deal — The Deal Club</title><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%23142f2d'/%3E%3Ctext x='50' y='69' text-anchor='middle' font-size='58' fill='%23ead1a0'%3ED%3C/text%3E%3C/svg%3E"><link rel="stylesheet" href="/style.css"></head>
+<body>
+<header class="header"><a class="brand" href="/" aria-label="The Deal Club home"><span class="brand-mark">D<span>◆</span></span><span>MONOPOLY DEAL<small>THE DEAL CLUB</small></span></a><nav><span class="live-dot" id="connection">YOUR TABLE IS WAITING</span><button id="rulesButton" class="text-button">How to play <span>↗</span></button><button id="soundButton" class="icon-button" aria-label="Enable sound" title="Toggle sound">♫</button></nav></header>
+<main>
+<section id="welcome" class="welcome">
+ <div class="intro"><div class="eyebrow"><span></span> A LITTLE LUCK. A GREAT DEAL OF STRATEGY.</div><h1>Big moves.<br>Small <em>cards.</em></h1><p class="lede">Build your empire, steal the perfect set, and turn the table. Your next game night starts here.</p><div class="feature-line"><span>2–5 players</span><i>◆</i><span>One 3D table</span><i>◆</i><span>Endless deals</span></div>
+ <div id="entry"><label for="playerName">YOUR NAME AT THE TABLE</label><input id="playerName" maxlength="22" value="" placeholder="Enter your name" autocomplete="nickname"><div class="entry-actions"><button class="primary" id="practice">Play with bots <span>↗</span></button><button class="secondary" id="host">Host a table</button></div><div class="join-row"><input id="roomCode" aria-label="Room code" maxlength="6" placeholder="ROOM CODE" autocomplete="off"><button id="join" class="text-button">Join friends →</button></div><p class="micro">No sign-up. Just pull up a chair.</p></div>
+ <div id="lobby" hidden></div>
+ </div>
+ <div class="hero-note"><span class="note-line"></span><b>YOUR HAND. YOUR CALL.</b><span>Drag to orbit the table · Scroll to zoom</span></div>
+</section>
+<section id="playArea" hidden><div class="game-top"><div><span class="eyebrow">THE TABLE</span><h2 id="turnTitle">Make your move.</h2></div><div class="room-tools"><button class="secondary compact" id="copyCode">Copy room code</button><button class="secondary compact" id="invite">Invite friends ↗</button><button class="text-button" id="leave">Leave table</button></div></div><div id="seats" class="seats"></div><div class="table-hud"><span id="tableStatus">Collect three complete sets</span><div><button class="glass" id="viewButton">Top view</button><button class="glass" id="resetView">Reset view</button></div></div><aside id="activity" class="activity"></aside><div id="turnBar" class="turn-bar"></div><section class="hand-area"><div class="hand-heading"><h3>Your hand <span id="handCount"></span></h3><span>Click a card to inspect and play</span><button id="collectionButton" class="text-button">Manage properties ↗</button></div><div id="hand" class="hand"></div></section></section>
+<div id="sceneWrap" class="scene-wrap"><canvas id="scene" aria-label="Interactive 3D card table"></canvas><div id="sceneHint" class="scene-hint">DRAG TO ORBIT <span>·</span> SCROLL TO ZOOM <span>·</span> CLICK TO INSPECT</div><div id="fallback" hidden>3D rendering is unavailable on this device. All cards and game controls are available below.</div></div>
+</main>
+<footer id="footer"><span>THE DEAL CLUB <i>◆</i> EST. 2026</span><span>Three sets. One winner. Make it you.</span><span>An independent fan project</span></footer>
+<dialog id="modal"><div id="modalContent"></div></dialog><div id="toast" role="status" aria-live="polite"></div>
+<script type="module" src="/app.mjs"></script>
+</body></html>
