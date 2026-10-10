@@ -21,6 +21,8 @@ For two local players, use separate browser tabs. Sessions are stored per tab so
 - Locally bundled Three.js: a walnut and leather table, gold trim, red game box, brass lamp, rounded layered card stacks, warm lighting, shadows, hover lift, smooth orbit/zoom, top view, and draw/property-movement animations.
 - Illustrated city and action cards, engraved money, rainbow wilds, and reversible red card backs. The same high-resolution card painter supplies the 3D scene, hand, and click-to-flip inspector.
 - Readable card inspection and keyboard-accessible buttons; mobile hand scrolling; a functional control interface even without WebGL.
+- Automatic first-game tutorial with six steps, skip/replay controls, contextual “What now?” explanations, and a first-discard reminder. Action/payment dialogs take priority over help.
+- Switch between an Amber lounge and Midnight skyline using **Background**. Your choice and hint preference are saved in the current browser.
 - Complete 106-card playable deck: 28 fixed properties, 11 wild properties, 20 money cards, 34 actions, and 13 rent cards.
 - Banking, property sets, wild rearrangement, rent combinations, houses/hotels, Sly Deal, Forced Deal, Deal Breaker, birthdays, debt collection, and Just Say No counter chains.
 - Player-selected debt payments, no change, hand-size enforcement, three different complete sets to win, and rematch lobby.
@@ -30,6 +32,8 @@ For two local players, use separate browser tabs. Sessions are stored per tab so
 ## Controls
 
 Drag the table to orbit; scroll to zoom. Click a table card to inspect it. Click a card in your hand to play it or bank its value. **Manage properties** lets you move wilds. The response panel pauses actions for a choice; use **Respond** to reopen it after closing. Toggle sounds using the music button.
+
+**Tutorial** replays the six-step introduction. **What now?** explains the current turn phase. **Background** changes the room lighting/skyline and lets you disable the inline hints. Help does not pause multiplayer; an incoming response replaces it when your decision is needed.
 
 ## Rules
 

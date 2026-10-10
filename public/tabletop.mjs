@@ -1,3 +1,4 @@
+import {createBackdrop} from './ambience.mjs';
 import * as T from './vendor/three.module.min.js';
 import {COLORS,createDeck} from './cards.mjs';
 import {cardCanvas} from './card-art.mjs';
@@ -6,6 +7,8 @@ const host=document.querySelector('#sceneWrap'),canvas=document.querySelector('#
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const textures=new Map(),positions=new Map(),ray=new T.Raycaster(),pointer=new T.Vector2();
 let renderer,scene,camera,board,items,decor,environment,ready=false,playing=false,hover=null,drag=null,hits=[],inspect=()=>{};
+let backgroundTheme="midnight",applyBackground=()=>{};
+export function setBackground(theme){backgroundTheme=theme;applyBackground(theme)}
 let az=-.24,tilt=.90,zoom=29,targetAz=az,targetTilt=tilt,targetZoom=zoom,top=false,lastTime=0,heroFan=[],lastDealCount=null;
 const vector=new T.Vector3();
 
@@ -64,7 +67,7 @@ function room(){environment=new T.Group();scene.add(environment);const wood=surf
 }
 export function init(){try{
  renderer=new T.WebGLRenderer({canvas,antialias:true,alpha:true});renderer.setPixelRatio(Math.min(devicePixelRatio,1.6));renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.15;
- scene=new T.Scene();scene.fog=new T.FogExp2('#120e0b',.016);camera=new T.PerspectiveCamera(39,1,.1,140);scene.add(new T.HemisphereLight('#f1e5ce','#382218',1.6));const key=new T.DirectionalLight('#ffdab0',3.3);key.position.set(-9,16,7);key.castShadow=true;key.shadow.mapSize.set(2048,2048);Object.assign(key.shadow.camera,{left:-19,right:19,top:17,bottom:-17,near:1,far:50});key.shadow.normalBias=.027;key.shadow.bias=-.0001;scene.add(key);const rim=new T.DirectionalLight('#fff0d3',1.25);rim.position.set(8,8,-10);scene.add(rim);room();
+ scene=new T.Scene();scene.fog=new T.FogExp2('#120e0b',.016);camera=new T.PerspectiveCamera(39,1,.1,140);scene.add(new T.HemisphereLight('#f1e5ce','#382218',1.6));const key=new T.DirectionalLight('#ffdab0',3.3);key.position.set(-9,16,7);key.castShadow=true;key.shadow.mapSize.set(2048,2048);Object.assign(key.shadow.camera,{left:-19,right:19,top:17,bottom:-17,near:1,far:50});key.shadow.normalBias=.027;key.shadow.bias=-.0001;scene.add(key);const rim=new T.DirectionalLight('#fff0d3',1.25);rim.position.set(8,8,-10);scene.add(rim);room();const updateBackdrop=createBackdrop(T,scene);applyBackground=theme=>{const night=theme==='midnight';updateBackdrop(theme);scene.fog.color.set(night?'#101a2a':'#120e0b');key.color.set(night?'#f2dfc8':'#ffdab0');rim.color.set(night?'#91bde9':'#fff0d3');environment.children[0].material.color.set(night?'#75889d':'#ffffff')};applyBackground(backgroundTheme);
  board=new T.Group();scene.add(board);const base=slab(26,18,.6,'#372018',.7);base.position.y=-.62;base.material.map=surface('wood');board.add(base);const gold=slab(25.7,17.7,.075,'#c39145',.6);gold.material.metalness=.65;gold.material.roughness=.3;gold.position.y=-.035;board.add(gold);const leather=slab(25.4,17.4,.065,'#ffffff',.55);leather.position.y=.035;leather.material.map=surface('leather');leather.material.bumpMap=leather.material.map;leather.material.bumpScale=.025;leather.material.roughness=.84;board.add(leather);logo();
  const stitch=document.createElement('canvas');stitch.width=1536;stitch.height=1024;const s=stitch.getContext('2d');s.strokeStyle='#c3985866';s.lineWidth=2;s.setLineDash([5,6]);s.beginPath();s.roundRect(20,20,1496,984,32);s.stroke();canvasPlane(stitch,24.9,16.9,board,0,0,.143);items=new T.Group();decor=new T.Group();scene.add(items,decor);hero();
  new ResizeObserver(()=>{renderer.setSize(host.clientWidth,host.clientHeight,false);camera.aspect=host.clientWidth/host.clientHeight;camera.updateProjectionMatrix()}).observe(host);
