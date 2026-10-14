@@ -44,7 +44,7 @@ function hero(){clear(items);clear(decor);positions.clear();hits=[];hover=null;h
  zone(6.7,2.5,2.8,3.8,'DISCARD PILE');card(cards.find(c=>c.action==='no'),6.7,2.15,{a:-.1,scale:1.25,clickable:true});chip(6.2,-1.7,'#b98942');chip(6.5,-1.4,'#d5b06b');building(5.5,-1.8);label('MY CARDS',.5,6.55,{width:5,size:32});ready=true;
 }
 export function renderTable(state){if(!renderer)return;if(!state?.game){if(playing||!ready)hero();return}const entering=!playing,g=state.game;playing=true;heroFan=[];board.scale.set(1,1,1);clear(items);clear(decor);hits=[];hover=null;
- if(entering){positions.clear();targetAz=0;targetTilt=.69;targetZoom=31.5;lastDealCount=null}
+ if(entering){positions.clear();targetAz=0;targetTilt=.69;targetZoom=29;lastDealCount=null}
  const ordered=[...g.players.slice(state.you),...g.players.slice(0,state.you)],layouts=ordered.length===2?[[0,5.4,0],[0,-5.5,Math.PI]]:ordered.length===3?[[0,5.4,0],[-6.2,-3.5,1],[6.2,-3.5,-1]]:ordered.length===4?[[0,5.5,0],[-8.5,-.7,Math.PI/2],[0,-5.5,Math.PI],[8.5,-.7,-Math.PI/2]]:[[0,5.5,0],[-8.5,1.2,Math.PI/2],[-4.3,-5.5,Math.PI],[4.3,-5.5,Math.PI],[8.5,1.2,-Math.PI/2]];
  ordered.forEach((p,i)=>{const [cx,cz,a]=layouts[i];zone(cx,cz,7.7,4.4,p.name+(p.id===state.you?' · YOUR COLLECTION':''),g.turn===p.id,a);const pos=(x,z)=>[cx+x*Math.cos(a)+z*Math.sin(a),cz-x*Math.sin(a)+z*Math.cos(a)];
   p.groups.forEach((gr,j)=>{const col=j%4,row=Math.floor(j/4),left=-Math.min(p.groups.length-1,3)*.9;gr.cards.forEach((c,k)=>{const [x,z]=pos(left+col*1.8+k*.11,-row*1.7-k*.2);const o=card(c,x,z,{a,y:.22+k*.054,scale:.82,clickable:true,owner:p.id,group:gr.id});const key=p.id+':'+c.id,dest=o.position.clone(),prev=positions.get(key);if(!reduce){o.userData.destination=dest;o.position.copy(prev||new T.Vector3(0,1.4,p.id===state.you?7:0))}positions.set(key,dest)});if(gr.buildings.length){const [x,z]=pos(left+col*1.8,-row*1.7-.9);building(x,z,gr.buildings.some(b=>b.action==='hotel'))}});
@@ -58,7 +58,7 @@ export function renderTable(state){if(!renderer)return;if(!state?.game){if(playi
 }
 export function onInspect(fn){inspect=fn}
 export function toggleView(){top=!top;targetTilt=top?.13:.69;targetAz=0;return top}
-export function resetView(){targetAz=playing?0:-.28;targetTilt=playing?.69:.93;targetZoom=playing?31.5:29;top=false}
+export function resetView(){targetAz=playing?0:-.28;targetTilt=playing?.69:.93;targetZoom=29;top=false}
 function hit(e){const r=canvas.getBoundingClientRect();pointer.set((e.clientX-r.left)/r.width*2-1,-(e.clientY-r.top)/r.height*2+1);ray.setFromCamera(pointer,camera);return ray.intersectObjects(hits)[0]?.object.userData.root}
 function room(){environment=new T.Group();scene.add(environment);const wood=surface('wood');const floor=new T.Mesh(new T.PlaneGeometry(85,65),new T.MeshStandardMaterial({map:wood,roughness:.74,metalness:0}));floor.rotation.x=-Math.PI/2;floor.position.y=-.79;floor.receiveShadow=true;environment.add(floor);
  // A real brass desk lamp and small plant frame the table under warm light.

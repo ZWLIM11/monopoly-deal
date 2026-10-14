@@ -20,7 +20,8 @@ For two local players, use separate browser tabs. Sessions are stored per tab so
 
 - Locally bundled Three.js: a walnut and leather table, gold trim, red game box, brass lamp, rounded layered card stacks, warm lighting, shadows, hover lift, smooth orbit/zoom, top view, and draw/property-movement animations.
 - Illustrated city and action cards, engraved money, rainbow wilds, and reversible red card backs. The same high-resolution card painter supplies the 3D scene, hand, and click-to-flip inspector.
-- Readable card inspection and keyboard-accessible buttons; mobile hand scrolling; a functional control interface even without WebGL.
+- Readable card inspection and keyboard-accessible buttons; a stacked card rack that keeps the hand, live bank total, and table in one screen; a functional control interface even without WebGL.
+- Higher-quality card-face images, stronger contrast, and a larger inspector for clearer card wording on phones and laptops.
 - Automatic first-game tutorial with six steps, skip/replay controls, contextual “What now?” explanations, and a first-discard reminder. Action/payment dialogs take priority over help.
 - Switch between an Amber lounge and Midnight skyline using **Background**. Your choice and hint preference are saved in the current browser.
 - Complete 106-card playable deck: 28 fixed properties, 11 wild properties, 20 money cards, 34 actions, and 13 rent cards.

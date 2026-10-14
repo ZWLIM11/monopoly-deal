@@ -1,0 +1,43 @@
+/* Keep the board, turn controls, and stacked hand visible in one game screen. */
+body.playing{height:100dvh;overflow:hidden}
+body.playing main{height:calc(100dvh - 94px);min-height:0;overflow:hidden}
+body.playing .scene-wrap{top:122px;height:calc(100dvh - 122px);width:100%;mask-image:linear-gradient(0deg,transparent 1%,#000 13%,#000 96%,transparent)}
+body.playing .table-hud{position:relative;z-index:7}
+body.playing .activity{top:285px;z-index:7}
+.turn-bar{position:fixed;z-index:9;left:4%;right:4%;bottom:228px;margin:0;min-height:66px;padding:11px 16px}
+.hand-area{position:fixed;z-index:8;left:0;right:0;bottom:0;height:228px;padding:13px 4% 8px;background:linear-gradient(0deg,#101319 72%,#101319ee 88%,transparent);overflow:visible}
+.hand-heading{height:31px;position:relative;z-index:15}
+.bank-total{margin-left:auto;padding:6px 10px;border:1px solid #d5ad6547;border-radius:999px;background:#d5ad6512;color:#f0d59e;font-size:10px;letter-spacing:.7px;white-space:nowrap}
+.bank-total+.text-button{margin-left:0}
+.hand{height:184px;min-height:0;overflow:visible;padding:10px 8px 0;align-items:flex-start;justify-content:center;gap:0;isolation:isolate}
+.hand .card{width:112px;flex:0 0 112px;margin-left:-10px;filter:contrast(1.06) saturate(1.03);image-rendering:auto;z-index:calc(var(--card-index) + 1)}
+.hand .card:first-child{margin-left:0}
+.hand .card:hover,.hand .card:focus-visible{z-index:40;transform:perspective(900px) translateY(-18px) scale(1.06) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg))}
+.card img{image-rendering:auto;filter:contrast(1.035)}
+.inspect>.card{width:248px;height:372px}
+.inspect>.card img{filter:contrast(1.07) saturate(1.02)}
+
+@media(max-width:760px){
+ body.playing main{height:calc(100dvh - 90px)}
+ body.playing .game-top{padding-top:10px;padding-bottom:8px}
+ body.playing .scene-wrap{top:136px;height:calc(100dvh - 136px)}
+ body.playing .table-hud{margin-top:8px}
+ .turn-bar{left:4%;right:4%;bottom:195px;min-height:61px;padding:9px 11px}
+ .hand-area{height:195px;padding:8px 4% 3px;background:linear-gradient(0deg,#101319 75%,#101319f2 90%,transparent)}
+ .hand-heading{height:29px;gap:8px}
+ .bank-total{font-size:9px;padding:5px 8px;margin-left:auto}
+ .bank-total+.text-button{font-size:0}
+ .bank-total+.text-button:after{content:'Properties ↗';font-size:9px}
+ .hand{height:158px;padding:8px 0 0;justify-content:center;overflow:visible}
+ .hand .card{width:96px;flex-basis:96px;margin-left:-51px;box-shadow:1px 2px 0 #cebea4,2px 3px 0 #8c775e,4px 8px 13px #0009}
+ .hand .card:first-child{margin-left:0}
+ .hand .card:hover,.hand .card:focus-visible{transform:translateY(-17px) scale(1.03)}
+ .inspect>.card{width:205px;height:308px}
+}
+
+@media(max-height:720px){
+ .turn-bar{bottom:177px}
+ .hand-area{height:177px}
+ .hand{height:142px}
+ .hand .card{width:104px;flex-basis:104px}
+}

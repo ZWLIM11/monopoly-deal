@@ -37,7 +37,7 @@ function render(next){state=next;const g=next?.game;document.body.classList.togg
  if(g.winner!==null){title=`${esc(g.players[g.winner].name)} owns the table.`;desc='Three complete sets. A very good deal.';button='<button id="results" class="primary">View result ↗</button>'}
  $('#turnBar').innerHTML=`<div class="plays">${[0,1,2].map(i=>`<i class="${i<g.plays?'used':''}"></i>`).join('')}</div><div><h3>${title}</h3><p>${desc}</p></div>${button}`;
  $('#endTurn')?.addEventListener('click',()=>send({type:'end'}));$('#respond')?.addEventListener('click',responseModal);$('#results')?.addEventListener('click',victory);
- $('#handCount').textContent='('+p.hand.length+')';$('#hand').innerHTML=p.hand.length?p.hand.map(c=>cardHTML(c,`data-card="${c.id}"`)).join(''):'<div class="card empty">No cards left.<br>Draw five next turn.</div>';
+ $('#handCount').textContent='('+p.hand.length+')';$('#bankTotal').textContent='Bank · '+p.balance+'M';$('#bankTotal').setAttribute('aria-label','Your bank total is '+p.balance+' million');$('#hand').style.setProperty('--hand-size',p.hand.length);$('#hand').innerHTML=p.hand.length?p.hand.map((c,i)=>cardHTML(c,`data-card="${c.id}" style="--card-index:${i}"`)).join(''):'<div class="card empty">No cards left.<br>Draw five next turn.</div>';
  $('#hand').querySelectorAll('[data-card]').forEach(el=>el.onclick=()=>inspectHand(el.dataset.card));
  if(g.turn!==lastTurn){if(own&&lastTurn!==null){tone();toast('Your turn — the table is yours.')}lastTurn=g.turn}
  const pendingKey=g.pending?`${next.revision}:${g.pending.responder}:${g.pending.stage}`:'';if(g.pending?.responder===next.you&&pendingKey!==lastPending){lastPending=pendingKey;responseModal()}else if(!g.pending)lastPending='';

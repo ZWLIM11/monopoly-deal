@@ -49,6 +49,6 @@ export function cardCanvas(c,{back=false,color='#a91620'}={}){
  }
  cache.set(key,el);return el;
 }
-export function cardImage(c){const key=JSON.stringify([c.id,c.name,c.value,c.action,c.colors]);if(!urls.has(key))urls.set(key,cardCanvas(c).toDataURL('image/webp',.88));return urls.get(key)}
+export function cardImage(c){const key=JSON.stringify([c.id,c.name,c.value,c.action,c.colors]);if(!urls.has(key))urls.set(key,cardCanvas(c).toDataURL('image/webp',.9));return urls.get(key)}
 let backURL;
-export function cardBackImage(){return backURL??=cardCanvas({id:'back'},{back:true}).toDataURL('image/webp',.88)}
+export function cardBackImage(){return backURL??=cardCanvas({id:'back'},{back:true}).toDataURL('image/webp',.9)}
